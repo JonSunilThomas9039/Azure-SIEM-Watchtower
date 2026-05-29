@@ -114,7 +114,7 @@ Here is the complete, finalized detection logic successfully deployed inside the
   ```
 * **Production KQL Query:**
   ```kusto
-let CompromisedIPs = 
+  let CompromisedIPs = 
     SecurityAlert
     | where AlertName == "Post-Scan Successful Login"
     | where TimeGenerated > ago(50m)
@@ -123,12 +123,12 @@ let CompromisedIPs =
     | extend AlertIP = tostring(EntitiesDynamic.Address)
     | where isnotempty(AlertIP)
     | project AlertIP;
-Syslog
-| where TimeGenerated > ago(50m)
-| where Computer == "Victim-VM" and (SyslogMessage has "curl" or SyslogMessage has "wget")
-| extend ExfilIP = HostIP
-| where ExfilIP in (CompromisedIPs)
-| project TimeGenerated, Computer, ExfilIP, ExfilDetail = SyslogMessage
+  Syslog
+  | where TimeGenerated > ago(50m)
+  | where Computer == "Victim-VM" and (SyslogMessage has "curl" or SyslogMessage has "wget")
+  | extend ExfilIP = HostIP
+  | where ExfilIP in (CompromisedIPs)
+  | project TimeGenerated, Computer, ExfilIP, ExfilDetail = SyslogMessage
   ```
 
 ---
