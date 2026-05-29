@@ -1,1 +1,16 @@
-
+let ScannedIPs = 
+SecurityAlert
+| where AlertName == "Port Scan Detected"
+| where TimeGenerated > ago(50m)
+| extend EntitiesDynamic = todynamic(Entities)
+| mvexpand EntitiesDynamic
+| extend AlertIP = tostring(EntitiesDynamic.Address)
+| where isnotempty(AlertIP)
+| project AlertIP;
+Syslog
+| where TimeGenerated > ago(50m)
+| where Computer == "Victim-VM"
+| where SyslogMessage has "sshd" and SyslogMessage has "session opened"
+| extend LoginIP = HostIP
+| where LoginIP in (ScannedIPs)
+| project TimeGenerated, Computer, LoginIP, SyslogMessage
