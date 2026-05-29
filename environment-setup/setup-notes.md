@@ -16,7 +16,7 @@ To simulate a real-world enterprise attack and monitoring pipeline, the infrastr
 👤 **Main Administrator Account Used:** `Jon`  
 🌐 **Target Public IP Address:** `20.249.208.213`
 
-📌 *Insert your overall resource infrastructure map here:* ![Azure Resource Group Components Layout](images/resource_group_layout.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/2f51a517-8cb6-4dc8-9ba4-abca96ce0ad3" />
 
 ---
 
