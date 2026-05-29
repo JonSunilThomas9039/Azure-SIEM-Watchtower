@@ -1,1 +1,6 @@
-
+Syslog
+| where TimeGenerated > ago(15m)
+| where ProcessName == "sshd"
+| where SyslogMessage contains "Invalid user"
+| summarize Count = count() by Computer, HostIP
+| where Count >= 3
