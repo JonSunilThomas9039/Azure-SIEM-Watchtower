@@ -114,11 +114,21 @@ Here is the complete, finalized detection logic successfully deployed inside the
   ```
 * **Production KQL Query:**
   ```kusto
-  Syslog
-  | where TimeGenerated > ago(50m)
-  | where ProcessName == "curl"
-  | where SyslogMessage contains "outbound connection initiated"
-  | project TimeGenerated, Computer, ProcessName, SyslogMessage
+let CompromisedIPs = 
+    SecurityAlert
+    | where AlertName == "Post-Scan Successful Login"
+    | where TimeGenerated > ago(50m)
+    | extend EntitiesDynamic = todynamic(Entities)
+    | mvexpand EntitiesDynamic
+    | extend AlertIP = tostring(EntitiesDynamic.Address)
+    | where isnotempty(AlertIP)
+    | project AlertIP;
+Syslog
+| where TimeGenerated > ago(50m)
+| where Computer == "Victim-VM" and (SyslogMessage has "curl" or SyslogMessage has "wget")
+| extend ExfilIP = HostIP
+| where ExfilIP in (CompromisedIPs)
+| project TimeGenerated, Computer, ExfilIP, ExfilDetail = SyslogMessage
   ```
 
 ---
