@@ -56,7 +56,10 @@ To fix these structural failures, we shifted our strategy from a Watchlist frame
 
 Instead of routing data through an external watchlist cache, the updated architecture leverages subqueries to dynamically pull recent events from the `SecurityAlert` table, parse the raw JSON data inside the SIEM on the fly, and project the results into our active `Syslog` evaluation line within an expanded time window.
 
-📌 *Insert your overall resource infrastructure map here:* ![Azure Resource Group Components Layout](images/resource_group_layout.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/74ec1389-e994-4f01-b7c7-62055e9b060d" />
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/dbf186e0-3bb2-41ee-844d-551c3ca2f314" />
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/cae5c1ce-37df-4182-8aec-1ff0e638bee2" />
+
 
 ---
 
@@ -81,6 +84,8 @@ Here is the complete, finalized detection logic successfully deployed inside the
   | summarize Count = count() by Computer, HostIP
   | where Count >= 3
   ```
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/561e366d-ec3c-489e-810f-918ca7031084" />
+
 
 ### 🔐 Rule 2: Successful Login After Scan
 * **Goal:** Look back through the `SecurityAlert` table to isolate a confirmed "Port Scan Detected" event, dynamically parse out the attacker's source IP address entity using `todynamic()`, and verify if that identical IP successfully established an open SSH session inside the `Syslog` table.
@@ -103,6 +108,9 @@ Here is the complete, finalized detection logic successfully deployed inside the
   | where LoginIP in (ScannedIPs)
   | project TimeGenerated, Computer, LoginIP, SyslogMessage
   ```
+
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/88c45e0b-d895-465f-ae03-59b50a12046e" />
+  
 
 📌 *Insert the image of your successful Rule 2 log output grid here:* ![Successful Cross-Table KQL Query Grid Output](images/rule2_kql_output.png)
 
@@ -131,6 +139,8 @@ Here is the complete, finalized detection logic successfully deployed inside the
   | project TimeGenerated, Computer, ExfilIP, ExfilDetail = SyslogMessage
   ```
 
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/d01719a6-fd7e-4317-a4b6-6f024f1bd419" />
+
 ---
 
 ## ⚙️ Part 4: How We Set It All Up
@@ -146,7 +156,7 @@ To stream kernel and user-space text events directly from the target operating s
 * A **Data Collection Rule (DCR)** named `Attacker-Victim-DCR` was engineered to explicitly map Linux OS event streams. 
 * The default facility ingestion valves were changed from `None` to `LOG_DEBUG` across the **`LOG_AUTH`**, **`LOG_AUTHPRIV`**, and **`LOG_USER`** parameters. This enabled the workspace to explicitly index user-space execution blocks and system access validations.
 
-📌 *Insert the image of your checked and active DCR facility boxes here:* ![Data Collection Rule Edit Data Source Facilities Panel](images/dcr_facilities_setup.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/27a786a5-20f6-44ed-965d-035ffc2e4a28" />
 
 ---
 
@@ -162,7 +172,8 @@ To stream kernel and user-space text events directly from the target operating s
   * **Source Port Range Block:** The inbound rule was originally restricted to source port `22`. It was adjusted to an asterisk (`*`) to allow incoming packets originating from the management machine's random high-numbered dynamic/ephemeral client ports.
   * **Post-NAT Destination Mismatch:** The firewall was initially configured to look for the public IP address as the destination. Because Azure's edge router performs Destination Network Address Translation (NAT) to `10.0.0.5` *before* hitting the NIC firewall, packets were dropped. The NSG rule destination parameter was modified to target `Any` to safely process the post-NAT packet state.
 
-📌 *Insert your finalized firewall configuration layout here:* ![Network Security Group Inbound Security Rules Tab](images/nsg_rules_configuration.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/fa07f73a-25f5-49f9-9259-74773e9a57f1" />
+
 
 ### 3. Web Console Focus and Agent Queue Jams
 * **The Mistake:** While attempting to fix local password variables on the VM, the Azure Portal UI became completely unresponsive, leaving the administrative "Run Command" panel frozen and greyed out.
