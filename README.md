@@ -8,6 +8,10 @@ As a hands-on learning project, I engineered a miniature **Security Operations C
 2. **Compromise:** A successful administrative log-in over SSH.
 3. **Action on Objective:** Exfiltrating host data out of the network via a web command.
 
+
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/b6f2fed2-3e83-4276-8742-2001a8d32a80" />
+
+
 ---
 
 ## 🗺️ Part 1: The Initial Plan vs. Why It Failed
