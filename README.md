@@ -112,8 +112,6 @@ Here is the complete, finalized detection logic successfully deployed inside the
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/88c45e0b-d895-465f-ae03-59b50a12046e" />
   
 
-📌 *Insert the image of your successful Rule 2 log output grid here:* ![Successful Cross-Table KQL Query Grid Output](images/rule2_kql_output.png)
-
 ### 🚨 Rule 3: Outbound Data Exfiltration
 * **Goal:** Detect unauthorized outbound command signatures indicating staging and shipping protocols routing data out of the localized network interface card.
 * **Live Test Execution String:**
