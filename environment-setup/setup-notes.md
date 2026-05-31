@@ -39,7 +39,7 @@ Building a cloud-native monitoring pipeline involves managing multiple overlappi
 * **The Root Cause:** Azure’s routing edge performs Destination Network Address Translation (NAT). It converts the public IP address (`20.249.208.213`) into the private virtual network IP (`10.0.0.5`) *before* the traffic is handed to the NSG firewall rules on the NIC. The initial rule explicitly looked for a destination matching the public IP header, causing the post-NAT packet to fail validation.
 * **The Rectification:** Updated the NSG rule's **Destination** field to target `Any` (or the explicit private subnet IP `10.0.0.5`), aligning the firewall check perfectly with the post-NAT packet structure.
 
-📌 *Insert your finalized firewall configuration layout here:* ![Network Security Group Inbound Security Rules Tab](images/nsg_rules_configuration.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/f2642a4a-8a7e-40ae-bb34-92fe186e7ef7" />
 
 ---
 
@@ -79,4 +79,5 @@ Initially, the `Syslog` database table inside the Log Analytics Workspace only s
   * **`LOG_AUTH` / `LOG_AUTHPRIV`:** Captures authentication handshakes, `sshd` interactions, and `pam_unix` session creation events.
   * **`LOG_USER`:** Captures standard user-space command terminal payloads injected via the `logger` shell utility.
 
-📌 *Insert the image of your checked and active DCR facility boxes here:* ![Data Collection Rule Facilities Setup](images/dcr_facilities_setup.png)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/b3a9deb7-a3ba-42e8-a624-a3e38ee49ed4" />
+
